@@ -1,12 +1,11 @@
 package me.yukonapplegeek.festivearrows;
 
-import net.minecraft.server.v1_7_R3.NBTTagCompound;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.FireworkEffect;
 import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
-import org.bukkit.craftbukkit.v1_7_R3.entity.CraftFirework;
 import org.bukkit.entity.Firework;
 import org.bukkit.inventory.meta.FireworkMeta;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -49,10 +48,14 @@ public class FestiveArrows extends JavaPlugin {
         FireworkMeta meta = firework.getFireworkMeta();
         meta.addEffect(effect);
         firework.setFireworkMeta(meta);
-        NBTTagCompound nbtData = new NBTTagCompound();
-        nbtData.setInt("Life", 1);
-        nbtData.setInt("LifeTime", 2);
-        ((CraftFirework) firework).getHandle().a(nbtData);
+        Bukkit.getScheduler().scheduleSyncDelayedTask(FestiveArrows.get(), new Runnable()
+        {
+        	@Override
+        	public void run()
+        	{
+        		firework.detonate();
+        	}
+        }, 20L); 
     }
 
     @Override
